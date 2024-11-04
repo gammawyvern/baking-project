@@ -1,11 +1,12 @@
+#include "baker.h"
 
 void* create_baker(void* arg) {
-  unsigned long id = (unsigned long)arg;
+  Baker* baker = (Baker*)arg;
 
-  sem_wait(&sem);
-  printf("[%lu] Using resource\n", id);
+  sem_wait(&(baker->kitchen->mixer));
+  printf("[%lu] - Using mixer\n", baker->id);
   sleep(1);
-  sem_post(&sem);
+  sem_post(&(baker->kitchen->mixer));
 
   return NULL;
 }

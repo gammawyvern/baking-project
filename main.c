@@ -17,9 +17,17 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
-  pthread_t bakers[num_of_bakers];
+  Kitchen kitchen;
+  setup_kitchen(&kitchen);
+
+  pthread_t baker_threads[num_of_bakers];
+  Baker bakers[num_of_bakers];
+
   for (unsigned long id=0; id<num_of_bakers; id++) {
-    int result = pthread_create(&bakers[id], NULL, create_baker, (void*)id);
+    bakers[id].id = id;
+    bakers[id].kitchen = &kitchen;
+
+    int result = pthread_create(&baker_threads[id], NULL, create_baker, &bakers[id]);
     if (result != 0) {
       perror("Failed to create thread");
       return 1;
@@ -27,10 +35,10 @@ int main(int argc, char* argv[]) {
   }
 
   for (unsigned long id=0; id<num_of_bakers; id++) {
-    pthread_join(bakers[id], NULL);
+    pthread_join(baker_threads[id], NULL);
   }
 
-  sem_destroy(&sem);
+  cleanup_kitchen(&kitchen);
   return 0;
 }
 

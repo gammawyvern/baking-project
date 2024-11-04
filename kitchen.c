@@ -9,3 +9,12 @@ void setup_kitchen(Kitchen* kitchen) {
   sem_init(&(kitchen->oven), 0, 1);
 }
 
+void cleanup_kitchen(Kitchen* kitchen) {
+  sem_destroy(&(kitchen->mixer));
+  sem_destroy(&(kitchen->pantry));
+  sem_destroy(&(kitchen->refrigerator));
+  sem_destroy(&(kitchen->bowl));
+  sem_destroy(&(kitchen->spoon));
+  sem_destroy(&(kitchen->oven));
+}
+

@@ -12,4 +12,5 @@ typedef struct {
 } Kitchen;
 
 void setup_kitchen(Kitchen* kitchen);
+void cleanup_kitchen(Kitchen* kitchen);
 
