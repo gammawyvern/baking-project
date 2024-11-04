@@ -1,12 +1,9 @@
-#include <semaphore.h>
 #include <pthread.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 
-void* create_baker(void* arg);
-
-sem_t sem;
+#include "kitchen.h"
+#include "baker.h"
 
 int main(int argc, char* argv[]) {
   if (argc != 2) {
@@ -19,8 +16,6 @@ int main(int argc, char* argv[]) {
     printf("\nMust have at least 2 bakers\n");
     return 1;
   }
-
-  sem_init(&sem, 0, 1);
 
   pthread_t bakers[num_of_bakers];
   for (unsigned long id=0; id<num_of_bakers; id++) {
@@ -39,13 +34,3 @@ int main(int argc, char* argv[]) {
   return 0;
 }
 
-void* create_baker(void* arg) {
-  unsigned long id = (unsigned long)arg;
-
-  sem_wait(&sem);
-  printf("[%lu] Using resource\n", id);
-  sleep(1);
-  sem_post(&sem);
-
-  return NULL;
-}
