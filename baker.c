@@ -37,6 +37,28 @@ void print_baker_message(Baker* baker, char* message) {
 
 void* create_baker(void* arg) {
   Baker* baker = (Baker*)arg;
+  
+  // Setup needed recipes, not sure about a better way tbh
+  Recipe cookies = {
+    ingredients = [
+      Ingredient {
+        name = "Flour",
+        location = baker->kitchen->pantry
+      },
+      Ingredient {
+        name = "Sugar",
+        location = baker->kitchen->pantry
+      },
+      Ingredient {
+        name = "Milk",
+        location = baker->kitchen->refridgerator
+      },
+      Ingredient {
+        name = "Butter",
+        location = baker->kitchen->refridgerator
+      }
+    ]
+  };
 
   sem_wait(&(baker->kitchen->mixer));
   print_baker_message(baker, "Using mixer");

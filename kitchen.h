@@ -11,6 +11,15 @@ typedef struct {
   sem_t oven;
 } Kitchen;
 
+typedef struct {
+  char* name;
+  sem_t* location;
+} Ingredient;
+
+typedef struct {
+  Ingredient* ingredients;
+} Recipe;
+
 void setup_kitchen(Kitchen* kitchen);
 void cleanup_kitchen(Kitchen* kitchen);
 
